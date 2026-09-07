@@ -1,1 +1,18 @@
-{"$schema":"https://openapi.vercel.sh/vercel.json","framework":"vite","buildCommand":"npm run build","outputDirectory":"dist","installCommand":"npm ci"}
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors https://testwiz.ng https://www.testwiz.ng https://testwiz-phase3-514623971b034c3db07503284b3f9c51-leos-projects-e04565ea.vercel.app"
+        }
+      ]
+    }
+  ]
+}
