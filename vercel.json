@@ -10,7 +10,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors https://testwiz.ng https://www.testwiz.ng https://testwiz-phase3-514623971b034c3db07503284b3f9c51-leos-projects-e04565ea.vercel.app"
+          "value": "frame-ancestors https://testwiz.ng https://www.testwiz.ng http://localhost:* http://127.0.0.1:* https://testwiz-phase3-514623971b034c3db07503284b3f9c51-leos-projects-e04565ea.vercel.app"
         }
       ]
     }
