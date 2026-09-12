@@ -1,8 +1,8 @@
-# Human Atlas
+# Testwiz Anatomy
 
-An interactive 3D anatomy explorer built with React, Three.js, and shadcn/ui. Take the BodyParts3D adult male reference apart into **2,234 individually selectable meshes**, explore **15 anatomical systems**, and search **3,432 named concepts**.
+The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
 
-**[Explore the live demo](https://human-atlas-seven.vercel.app)**
+**[Open Testwiz Anatomy](https://anatomy.testwiz.ng)**
 
 ## Explore
 
@@ -37,11 +37,11 @@ Validation covers mesh buffers, names and concept membership, nonoverlapping exp
 
 ## Anatomy data
 
-The current viewer uses **BodyParts3D 4.0**, an adult male reference anatomy, licensed **CC BY 4.0**. It does not represent every human structure or variation. Individual source meshes are distinct from named concepts, which may group multiple meshes. Descriptions distinguish general system context from individual organ explanations.
+The male edition uses **BodyParts3D 4.0** and the female edition uses the **HuBMAP Human Reference Atlas female reference**. Both datasets are licensed **CC BY 4.0**. Neither reference represents every human structure or variation. Individual source meshes are distinct from named concepts, which may group multiple meshes. Descriptions distinguish general system context from individual organ explanations.
 
-Geometry is simplified for browser performance while retaining every source mesh. The packaged model contains 2,288,268 triangles and downloads approximately 33 MB of compressed geometry. Full credits, source links, and adaptation details are in [ATTRIBUTION.md](public/ATTRIBUTION.md).
+Geometry is simplified for browser performance while retaining the packaged source meshes. Full credits, source links, dataset-specific scope notes, and adaptation details are in [ATTRIBUTION.md](public/ATTRIBUTION.md).
 
-This is an educational explorer, not a diagnostic or surgical tool.
+Testwiz Anatomy is an educational explorer, not a diagnostic or surgical tool.
 
 ## How it works
 
@@ -51,11 +51,13 @@ The optional WebMCP tools expose anatomy search and inspection in compatible bro
 
 ## Rebuilding geometry
 
-The repository includes browser-ready geometry. Rebuilding it is optional: obtain the official BodyParts3D OBJ archive and English metadata tables, prepare the joined concepts and display-system mappings, run `scripts/convert-anatomy.py`, then `node scripts/optimize-anatomy.mjs` and `node scripts/compress-models.mjs`. Simplification uses a 0.2% relative error limit per structure.
+The repository includes browser-ready geometry. Rebuilding it is optional. For the male edition, obtain the official BodyParts3D OBJ archive and English metadata tables, prepare the joined concepts and display-system mappings, run `scripts/convert-anatomy.py`, then `node scripts/optimize-anatomy.mjs atlas.json` and `node scripts/compress-models.mjs`. For the female edition, download the official HRA united-female v1.10 GLB and its v1.5 GLB supplement, then run `node scripts/convert-anatomy-glb.mjs v1.10.glb --supplement v1.5.glb`, `node scripts/optimize-anatomy.mjs atlas-female.json`, and `node scripts/compress-models.mjs`. The female converter preserves source identifiers, transforms, hierarchy, and only the eight carried-over pelvic structures. Simplification uses a 0.2% relative error limit per structure; no anatomy is fetched at runtime.
 
 ## Deploy
 
 Import this repository into Vercel as a Vite project. The included `vercel.json` configures `npm ci`, `npm run build`, and the `dist` output directory. It can also be served by a static host.
+
+Production uses `anatomy.testwiz.ng`; the Vercel project alias remains available as a fallback. The viewer sends versioned `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
 
 ## License
 
