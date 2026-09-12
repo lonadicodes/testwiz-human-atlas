@@ -1,5 +1,7 @@
 # Anatomy data attribution
 
+Testwiz interface, edition controls, and web-performance adaptations © 2026 Testwiz. These additions do not replace or relicense the original atlas code or anatomy data; the upstream notices and license terms below still apply.
+
 BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International.
 
 - License: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html (updated 2025-02-27)
