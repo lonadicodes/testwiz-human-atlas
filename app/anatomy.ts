@@ -133,6 +133,45 @@ export const CLINICAL_PATHWAYS:ClinicalPathway[]=[
   {title:'Pathways',prompt:'Follow the nervous system as it carries signals beyond the brain.',systems:['brain','nervous']},
  ]},
 ];
+export interface AnatomyQaQuestion {id:string;prompt:string;options:string[];answer:string;rationale:string}
+export const ENTITY_QA_BANK:Record<string,AnatomyQaQuestion[]>={
+ heart:[
+  {id:'heart-circuit',prompt:'Which circulation does the right side of the heart primarily serve?',options:['Pulmonary circulation','Systemic circulation','Portal circulation','Lymphatic circulation'],answer:'Pulmonary circulation',rationale:'The right ventricle pumps deoxygenated blood through the pulmonary arteries to the lungs.'},
+  {id:'heart-assessment',prompt:'Which bedside finding is most directly related to cardiac output?',options:['Peripheral perfusion','Visual acuity','Bowel sounds','Skin turgor only'],answer:'Peripheral perfusion',rationale:'Pulse quality, blood pressure, capillary refill, and skin temperature help assess forward flow and perfusion.'},
+ ],
+ kidney:[
+  {id:'kidney-role',prompt:'Which process is a core function of the kidney?',options:['Filtering blood and regulating fluid balance','Producing bile for fat digestion','Conducting air to the lungs','Storing food before digestion'],answer:'Filtering blood and regulating fluid balance',rationale:'The kidneys filter plasma and adjust water, electrolytes, acid–base status, and waste excretion.'},
+  {id:'kidney-landmark',prompt:'Where is renal angle tenderness assessed?',options:['Costovertebral angle','Left fifth intercostal space','Suprasternal notch','Popliteal fossa'],answer:'Costovertebral angle',rationale:'The costovertebral angle overlies the kidneys and is assessed for tenderness when renal inflammation is suspected.'},
+ ],
+ trachea:[
+  {id:'trachea-role',prompt:'What is the trachea’s main role?',options:['Conduct air while keeping the airway open','Exchange oxygen directly with blood','Pump blood to the lungs','Store urine'],answer:'Conduct air while keeping the airway open',rationale:'Cartilaginous rings support the trachea as air moves between the larynx and main bronchi.'},
+  {id:'trachea-relation',prompt:'Which structure lies immediately posterior to the trachea?',options:['Oesophagus','Sternum','Thyroid cartilage','Clavicle'],answer:'Oesophagus',rationale:'The oesophagus runs posterior to the trachea through the neck and superior thorax.'},
+ ],
+ liver:[
+  {id:'liver-location',prompt:'Where is most of the liver located?',options:['Right upper quadrant','Left lower quadrant','Posterior pelvis','Mediastinum'],answer:'Right upper quadrant',rationale:'The liver lies beneath the diaphragm, mostly in the right upper quadrant with a portion crossing the midline.'},
+  {id:'liver-function',prompt:'Which is a liver function?',options:['Producing bile and plasma proteins','Storing urine','Generating nerve impulses','Moving air into alveoli'],answer:'Producing bile and plasma proteins',rationale:'The liver produces bile, processes absorbed nutrients, and synthesizes many circulating proteins.'},
+ ],
+ brain:[
+  {id:'brain-role',prompt:'Which assessment best reflects brain function?',options:['Level of consciousness and pupil responses','Urine colour alone','Ankle range of motion alone','Bowel frequency alone'],answer:'Level of consciousness and pupil responses',rationale:'Neurologic assessment trends consciousness, pupils, speech, strength, sensation, and cranial nerve findings.'},
+  {id:'brain-location',prompt:'Where is the brain housed?',options:['Cranial cavity','Thoracic cavity','Abdominal cavity','Pelvic cavity'],answer:'Cranial cavity',rationale:'The brain occupies the cranial cavity and continues with the spinal cord through the foramen magnum.'},
+ ],
+ uterus:[
+  {id:'uterus-role',prompt:'What is the uterus’s primary reproductive role?',options:['Receive and support an embryo or fetus','Release urine from the bladder','Produce bile','Exchange gases with blood'],answer:'Receive and support an embryo or fetus',rationale:'The uterus receives the embryo, supports gestation, and its myometrium contracts during labour.'},
+  {id:'uterus-landmark',prompt:'Which part of the uterus is assessed abdominally during pregnancy?',options:['Fundus','Ureter','Ovary','Vulva'],answer:'Fundus',rationale:'Fundal height is a surface measurement used to follow gestational growth in context.'},
+ ],
+ ovary:[
+  {id:'ovary-role',prompt:'What does the ovary do?',options:['Stores follicles and produces ovarian hormones','Filters blood into urine','Conducts air to the lungs','Pumps blood through arteries'],answer:'Stores follicles and produces ovarian hormones',rationale:'The ovary contains follicles, releases oocytes, and produces hormones including oestrogen and progesterone.'},
+ ],
+ 'urinary bladder':[
+  {id:'bladder-role',prompt:'What is the urinary bladder’s role?',options:['Store urine before voiding','Filter plasma','Produce insulin','Exchange oxygen'],answer:'Store urine before voiding',rationale:'The muscular bladder temporarily stores urine delivered by the ureters until voluntary emptying.'},
+ ],
+ femur:[
+  {id:'femur-location',prompt:'Where is the femur located?',options:['Thigh','Forearm','Neck','Chest'],answer:'Thigh',rationale:'The femur is the long bone between the hip and knee and transmits body weight.'},
+ ],
+ 'mammary gland':[
+  {id:'mammary-role',prompt:'What is the mammary gland’s main function after childbirth?',options:['Produce and deliver milk','Filter urine','Control pupil size','Move the knee'],answer:'Produce and deliver milk',rationale:'Glandular breast tissue produces milk that drains through ducts to the nipple.'},
+ ],
+};
 export const EXPLANATIONS:Record<string,string> = {
  'heart':'A muscular pump in the chest. Its right side sends blood to the lungs; its left side sends blood through the systemic circulation.',
  'liver':'A large organ beneath the right side of the diaphragm. It processes absorbed nutrients, produces bile, and synthesizes many proteins carried in the blood.',
