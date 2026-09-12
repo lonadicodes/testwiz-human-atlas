@@ -11,6 +11,11 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 - Move from assembled anatomy to a spaced inventory of every visible piece.
 - Search anatomical names and source identifiers.
 - Isolate a selected structure and read its details.
+- Jump to head and neck, thorax, abdomen, pelvis, upper-limb, or lower-limb regions without losing your current explode state.
+- Follow short clinical pathways for blood flow, air, digestion, urinary flow, pelvic anatomy, and cranial nerves.
+- Use clinical aliases such as windpipe, breast, voice box, and uterine tube when searching.
+- Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
+- Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
 
 ## Run locally
