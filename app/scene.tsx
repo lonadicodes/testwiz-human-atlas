@@ -4,18 +4,19 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
 import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
-import {decodeModelResponse} from './model-download';
+import {loadModelChunk} from './model-download';
 import {PointerTap} from './pointer-tap';
-import {EXPLOSION_ORDER,SYSTEMS,type Atlas,type SceneState} from './anatomy';
+import {EXPLOSION_ORDER,SYSTEMS,regionForPart,type Atlas,type SceneState} from './anatomy';
 type Theme='light'|'dark';
 type RenderMode='optimized'|'quality';
-interface Props {atlas:Atlas;state:SceneState;theme:Theme;renderMode:RenderMode;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onReady:()=>void;onError:(s:string)=>void}
+interface Props {atlas:Atlas;state:SceneState;theme:Theme;renderMode:RenderMode;suspended?:boolean;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onReady:()=>void;onError:(s:string)=>void}
 const PALETTES={light:{clear:'#f7f9fc',ground:'#edf2f7',platform:'#ffffff',ring:'#116fdf',inner:'#94a3b8',marker:'#475569',selection:'#116fdf',exposure:1.12},dark:{clear:'#0b1418',ground:'#101d22',platform:'#172a31',ring:'#60a5fa',inner:'#91a3aa',marker:'#c8d2d6',selection:'#60a5fa',exposure:.96}} as const;
-export default function AnatomyScene({atlas,state,theme,renderMode,onSelect,onProgress,onReady,onError}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),appearance=useRef(theme),readyCallback=useRef(onReady),renderModeRef=useRef(renderMode);
- latest.current=state;select.current=onSelect;appearance.current=theme;readyCallback.current=onReady;renderModeRef.current=renderMode;
+export default function AnatomyScene({atlas,state,theme,renderMode,suspended=false,onSelect,onProgress,onReady,onError}:Props){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),appearance=useRef(theme),readyCallback=useRef(onReady),renderModeRef=useRef(renderMode),suspendedRef=useRef(suspended);
+ latest.current=state;select.current=onSelect;appearance.current=theme;readyCallback.current=onReady;renderModeRef.current=renderMode;suspendedRef.current=suspended||document.hidden;
+ useEffect(()=>{if(!suspended)window.dispatchEvent(new Event('testwiz-anatomy-resume'));},[suspended]);
  useEffect(()=>{
- const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastTheme:Theme|null=null,lastView='',lastReset=-1,lastIsolate='',lastSurfaceOpacity=-1,layoutKey='',amount=0,lastRenderAt=0,lastRenderMode:RenderMode=renderModeRef.current;
+ const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastTheme:Theme|null=null,lastView='',lastReset=-1,lastIsolate='',lastSurfaceOpacity=-1,layoutKey='',amount=0,lastRenderAt=0,lastRenderMode:RenderMode=renderModeRef.current,focusCenter:T.Vector3|null=null;
   // Keep the male edition's original explosion ordering; female-only systems
   // join the ring only when the selected atlas actually contains them.
   const sceneSystems=EXPLOSION_ORDER.filter(system=>atlas.parts.some(part=>part.system===system));
@@ -71,7 +72,7 @@ export default function AnatomyScene({atlas,state,theme,renderMode,onSelect,onPr
   const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
   let loaded=0;
   const loadChunk=async(ci:number)=>{
-   const chunk=atlas.chunks[ci],compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';const response=await fetch(compressed?chunk.gzip!:chunk.url,{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
+   const chunk=atlas.chunks[ci],compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';const buffer=await loadModelChunk(compressed?chunk.gzip!:chunk.url,chunk.bytes,compressed,abort.signal);if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>();
    atlas.parts.forEach((p,i)=>{
     if(p.chunk!==ci)return;
@@ -91,8 +92,9 @@ export default function AnatomyScene({atlas,state,theme,renderMode,onSelect,onPr
    const reservedHeight=mobile?350:270;const availableAspect=Math.max(.35,(el.clientWidth-(mobile?40:340))/Math.max(160,el.clientHeight-reservedHeight));const atlasDistance=Math.max(packingHeight,packingWidth/availableAspect)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*(el.clientHeight/Math.max(160,el.clientHeight-reservedHeight))*1.08;
    const distance=T.MathUtils.lerp(normalDistance,Math.max(.2,atlasDistance),extent);if(extent>.8)view='front';
    const direction=view==='front'?new T.Vector3(0,.02,1):view==='back'?new T.Vector3(0,.02,-1):view==='side'?new T.Vector3(1,.02,0):new T.Vector3(.35,.06,1).normalize();
-   controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.68,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
+   const regionFocus=latest.current.region!=='whole-body'&&focusCenter?focusCenter:null;controls.target.set(regionFocus?.x??(extent>.1&&el.clientWidth>767?-packingWidth*.12:0),regionFocus?.y??(extent>.1||mobile?.85:.68),regionFocus?.z??0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
   };
+  const frameSelection=(ids:string[])=>{const box=new T.Box3();ids.forEach(id=>{const index=atlas.parts.findIndex(part=>part.id===id);if(index>=0)box.union(bounds[index].clone().translate(new T.Vector3(data[index*4],data[index*4+1],data[index*4+2])));});if(box.isEmpty())return;const center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()),w=el.clientWidth,h=el.clientHeight,mobile=w<768,availableWidth=Math.max(150,w-(mobile?36:430)),availableHeight=Math.max(120,h-(mobile?330:270));const distance=Math.max(.12,Math.max(size.y*h/availableHeight,size.x*w/availableWidth/camera.aspect,size.z)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*1.35);camera.clearViewOffset();controls.target.copy(center);camera.position.copy(center).add(new T.Vector3(.22,.1,1).normalize().multiplyScalar(distance));controls.maxDistance=Math.max(40,distance*2);controls.update();dirty=true;};
   const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(renderScale());camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);fit(latest.current.view,amount);};const observer=new ResizeObserver(resize);observer.observe(el);
   const raycaster=new T.Raycaster(),pointer=new T.Vector2(),tap=new PointerTap(),worldBox=new T.Box3(),hitPoint=new T.Vector3();
   const down=(e:PointerEvent)=>{hover.hidden=true;tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);};
@@ -105,27 +107,27 @@ export default function AnatomyScene({atlas,state,theme,renderMode,onSelect,onPr
    if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
-  const clock=new T.Clock();let lastExtent=-1;
+   const clock=new T.Clock();let lastExtent=-1,lastFocus=-1;
   const animate=(timestamp=0)=>{
-   if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
+   if(disposed||suspendedRef.current){frame=0;return;}frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
     if(renderModeRef.current!==lastRenderMode){renderer.setPixelRatio(renderScale());lastRenderMode=renderModeRef.current;dirty=true;}
     if(appearance.current!==lastTheme){const palette=PALETTES[appearance.current];renderer.setClearColor(palette.clear);renderer.toneMappingExposure=palette.exposure;groundMaterial.color.set(palette.ground);platformMaterial.color.set(palette.platform);ringMaterial.color.set(palette.ring);innerRingMaterial.color.set(palette.inner);markerMaterial.color.set(palette.marker);selectionColor.value.set(palette.selection);outlineMaterial.color.set(palette.selection);lastTheme=appearance.current;dirty=true;}
     const surfaceOpacity=atlas.sex==='female'?Math.max(.05,Math.min(.6,s.surfaceOpacity??.24)):.1;
     if(surfaceOpacity!==lastSurfaceOpacity){const surface=mats.get('integumentary');if(surface)surface.opacity=surfaceOpacity;lastSurfaceOpacity=surfaceOpacity;dirty=true;}
-    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.isolate!==s.isolate||lastState?.surfaceOpacity!==s.surfaceOpacity;
+    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.isolate!==s.isolate||lastState?.surfaceOpacity!==s.surfaceOpacity||lastState?.region!==s.region;
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||lastExtent<0){
      const visible=new Set(s.visible),selection=new Set(s.selected);updateOutlines(selection);
-    const visibleParts=atlas.parts.filter(p=>s.isolate?selection.has(p.id):visible.has(p.system)||selection.has(p.id));
+     const visibleParts=atlas.parts.filter(p=>s.isolate?selection.has(p.id):selection.has(p.id)||(visible.has(p.system)&&(s.region==='whole-body'||regionForPart(p)===s.region)));
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
-    if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}
+     if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;const regionBox=new T.Box3();visibleParts.forEach(part=>{const index=atlas.parts.indexOf(part);if(index>=0)regionBox.union(bounds[index]);});focusCenter=regionBox.isEmpty()?null:regionBox.getCenter(new T.Vector3());atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}
 
     atlas.parts.forEach((p,i)=>{
      const c=centers[i],destination=offsets[i];let dx=0,dy=0,dz=0;
      if(amount<=.45){const t=amount/.45;const group=Math.max(0,sceneSystems.findIndex(sys=>sys===p.system));const angle=group/Math.max(1,sceneSystems.length)*Math.PI*2;dx=Math.sin(angle)*t*.48;dy=(c.y-.85)*t*.28;dz=Math.cos(angle)*t*.48;}
      else {const t=(amount-.45)/.55,group=Math.max(0,sceneSystems.findIndex(sys=>sys===p.system)),angle=group/Math.max(1,sceneSystems.length)*Math.PI*2;dx=T.MathUtils.lerp(Math.sin(angle)*.48,destination.x-c.x,t);dy=T.MathUtils.lerp((c.y-.85)*.28,destination.y-c.y,t);dz=T.MathUtils.lerp(Math.cos(angle)*.48,-c.z,t);}
-      const selected=selection.has(p.id);data.set([dx,dy,dz,(s.isolate?selected:visible.has(p.system)||selected)?1:0],i*4);selectedData[i*4]=selected?255:0;const outline=outlineByIndex.get(i);if(outline){outline.position.set(dx,dy,dz);outline.visible=data[i*4+3]>.5;}
+      const selected=selection.has(p.id),regionVisible=s.region==='whole-body'||regionForPart(p)===s.region;data.set([dx,dy,dz,(s.isolate?selected:selected||(regionVisible&&visible.has(p.system)))?1:0],i*4);selectedData[i*4]=selected?255:0;const outline=outlineByIndex.get(i);if(outline){outline.position.set(dx,dy,dz);outline.visible=data[i*4+3]>.5;}
      markerPositions.set(data[i*4+3]>.5?[c.x+dx,c.y+dy,c.z+dz]:[10000,10000,10000],i*3);const mesh=pickers[i];if(mesh){mesh.position.set(dx,dy,dz);mesh.updateMatrix();mesh.updateMatrixWorld(true);}
     });partTexture.needsUpdate=true;selectionTexture.needsUpdate=true;markerGeometry.attributes.position.needsUpdate=true;lastState=s;lastExtent=amount;dirty=true;
    }
@@ -138,12 +140,16 @@ export default function AnatomyScene({atlas,state,theme,renderMode,onSelect,onPr
     }else if(lastIsolate){camera.clearViewOffset();fit(s.view,amount);}
     lastIsolate=isolateKey;
    }
+   if(s.focus!==lastFocus){if(s.selected.length)frameSelection(s.selected);lastFocus=s.focus;}
    controls.enableRotate=amount<.8;controls.mouseButtons.LEFT=amount<.8?T.MOUSE.ROTATE:T.MOUSE.PAN;controls.touches.ONE=amount<.8?T.TOUCH.ROTATE:T.TOUCH.PAN;ground.visible=platform.visible=ring.visible=innerRing.visible=amount<.5&&!s.isolate;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
    const minFrameMs=renderModeRef.current==='optimized'?33:0;if(dirty&&(minFrameMs===0||timestamp-lastRenderAt>=minFrameMs)){renderer.render(scene,camera);lastRenderAt=timestamp;targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
-  };animate();
+  };
+  const resume=()=>{if(!disposed&&!suspendedRef.current&&frame===0){dirty=true;animate();}};
+  const visibility=()=>{if(document.hidden){suspendedRef.current=true;}else{suspendedRef.current=!!suspended;resume();}};
+  window.addEventListener('testwiz-anatomy-resume',resume);document.addEventListener('visibilitychange',visibility);animate();
   const contextLost=(e:Event)=>{e.preventDefault();onError('The 3D session was paused by your device. Reload to continue.');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
-  return()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();clearOutlines();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
+  return()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);window.removeEventListener('testwiz-anatomy-resume',resume);document.removeEventListener('visibilitychange',visibility);observer.disconnect();controls.dispose();clearOutlines();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
  return <div className="scene" ref={host}/>;
 }

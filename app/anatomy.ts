@@ -1,5 +1,28 @@
 export type SystemId = 'skeletal'|'muscular'|'arterial'|'venous'|'nervous'|'digestive'|'respiratory'|'urinary'|'reproductive'|'lymphatic'|'endocrine'|'integumentary'|'connective'|'sensory'|'cardiac'|'brain'|'pregnancy';
 export type Sex = 'male'|'female';
+export type RegionId = 'whole-body'|'head-neck'|'thorax'|'abdomen'|'pelvis'|'upper-limb'|'lower-limb';
+export const REGIONS:{id:RegionId;label:string;description:string}[]=[
+ {id:'whole-body',label:'Whole body',description:'Show the complete reference body.'},
+ {id:'head-neck',label:'Head & neck',description:'Focus on the brain, face, neck, and upper airway.'},
+ {id:'thorax',label:'Thorax',description:'Focus on the chest, heart, lungs, and mediastinum.'},
+ {id:'abdomen',label:'Abdomen',description:'Focus on the abdominal organs and posterior abdominal wall.'},
+ {id:'pelvis',label:'Pelvis',description:'Focus on the pelvic organs, vessels, and pelvic floor.'},
+ {id:'upper-limb',label:'Upper limb',description:'Focus on the shoulder, arm, forearm, and hand.'},
+ {id:'lower-limb',label:'Lower limb',description:'Focus on the hip, thigh, leg, and foot.'},
+];
+const UPPER_LIMB=/\b(arm|forearm|hand|finger|thumb|humerus|radius|ulna|carpal|metacarp|phalanx|shoulder|scapula|clavicle|deltoid|biceps|triceps|brachial|wrist|elbow)\b/i;
+const LOWER_LIMB=/\b(leg|thigh|foot|toe|femur|tibia|fibula|tarsal|metatars|calcane|ankle|knee|patella|quadriceps|hamstring|gastrocnemius|soleus|gluteal|sartorius)\b/i;
+export function regionForPart(part:Pick<Part,'name'|'bounds'>):RegionId{
+ const name=part.name||'',x=(part.bounds[0][0]+part.bounds[1][0])/2,y=(part.bounds[0][1]+part.bounds[1][1])/2;
+ if(UPPER_LIMB.test(name))return 'upper-limb';
+ if(LOWER_LIMB.test(name))return 'lower-limb';
+ if(y>=1.43)return 'head-neck';
+ if(y>=1.08)return 'thorax';
+ if(y>=.78)return 'abdomen';
+ if(y>=.48)return 'pelvis';
+ if(Math.abs(x)>.17&&y>.22)return y>.82?'upper-limb':'lower-limb';
+ return 'lower-limb';
+}
 export const SYSTEMS: {id:SystemId;name:string;color:string;description:string}[] = [
  {id:'skeletal',name:'Skeleton',color:'#e2d9ba',description:'Bones form the supporting framework of the body, protect organs, and provide attachment points for muscles. Their internal tissue also stores minerals and produces blood cells.'},
  {id:'muscular',name:'Muscles',color:'#a85b50',description:'Skeletal muscles generate movement by pulling on their attachments. Together with tendons, they move joints, stabilize posture, and produce heat.'},
@@ -23,6 +46,37 @@ export const SYSTEMS: {id:SystemId;name:string;color:string;description:string}[
 export const EXPLOSION_ORDER:SystemId[] = ['skeletal','muscular','cardiac','sensory','arterial','venous','nervous','respiratory','digestive','urinary','lymphatic','endocrine','reproductive','integumentary','connective','brain','pregnancy'];
 export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;vertexCount:number;indexCount:number;bounds:[number[],number[]]}
 export interface Concept {id:string;name:string;elements:string[]}
+export interface ClinicalNote {location:string;function:string;landmark:string;assessment:string;associations:string}
+export const CLINICAL_NOTES:Record<string,ClinicalNote>={
+ heart:{location:'Central thorax, between the lungs, behind the sternum.',function:'Pumps blood through the pulmonary and systemic circuits.',landmark:'Apical impulse is usually felt in the left fifth intercostal space at the mid-clavicular line.',assessment:'Relate heart sounds, pulse, blood pressure, and peripheral perfusion to cardiac output.',associations:'Heart failure, arrhythmias, ischemia, and valvular disease.'},
+ trachea:{location:'Midline neck and superior thorax, between the larynx and main bronchi.',function:'Maintains an open airway and conducts air to the lungs.',landmark:'The trachea lies anterior to the oesophagus and can be palpated below the cricoid cartilage.',assessment:'Assess airway patency, work of breathing, breath sounds, and tracheal position.',associations:'Airway obstruction, aspiration, intubation, and tracheostomy care.'},
+ kidney:{location:'Posterior abdomen, on either side of the vertebral column.',function:'Filters blood and regulates fluid, electrolytes, acid–base balance, and erythropoietin production.',landmark:'The kidneys lie partly under the lower ribs; the costovertebral angle is used for tenderness assessment.',assessment:'Monitor urine output, fluid balance, blood pressure, and renal laboratory results.',associations:'Acute kidney injury, chronic kidney disease, urinary obstruction, and pyelonephritis.'},
+ 'urinary bladder':{location:'Midline pelvis, behind the pubic symphysis.',function:'Stores urine before voluntary voiding.',landmark:'A distended bladder can rise above the pubic symphysis.',assessment:'Assess voiding pattern, suprapubic discomfort, bladder distension, and catheter drainage.',associations:'Urinary retention, infection, incontinence, and catheter-associated complications.'},
+ liver:{location:'Right upper quadrant of the abdomen, beneath the diaphragm.',function:'Processes absorbed nutrients, produces bile, and synthesizes plasma proteins.',landmark:'The lower border may be palpable below the right costal margin during examination.',assessment:'Observe jaundice, abdominal tenderness, nutrition status, and liver-related laboratory changes.',associations:'Hepatitis, cirrhosis, cholestasis, and medication metabolism.'},
+ brain:{location:'Within the cranial cavity, continuous with the spinal cord through the foramen magnum.',function:'Integrates sensation, movement, cognition, language, and autonomic regulation.',landmark:'Neurologic examination compares pupils, strength, sensation, speech, and level of consciousness.',assessment:'Trend mental status, pupils, motor responses, sensation, and cranial nerve findings.',associations:'Stroke, seizures, traumatic injury, raised intracranial pressure, and meningitis.'},
+ uterus:{location:'Midline pelvis, between the bladder and rectum.',function:'Receives the embryo and supports pregnancy; the myometrium contracts during labour.',landmark:'The fundus is assessed abdominally during pregnancy to estimate gestational growth.',assessment:'Relate bleeding, pelvic pain, uterine tone, and postpartum fundal position to the clinical context.',associations:'Fibroids, endometriosis, pregnancy, postpartum haemorrhage, and uterine infection.'},
+ ovary:{location:'Paired pelvic structures lateral to the uterus.',function:'Stores follicles, releases oocytes, and produces ovarian hormones.',landmark:'Ovaries are assessed indirectly through pelvic history and imaging rather than routine palpation.',assessment:'Ask about cycle pattern, pelvic pain, abnormal bleeding, and pregnancy-related symptoms.',associations:'Ovarian cysts, torsion, polycystic ovary syndrome, and ovarian malignancy.'},
+ 'mammary gland':{location:'Subcutaneous tissue of the anterior chest wall.',function:'Produces and delivers milk through ducts after childbirth.',landmark:'Examination follows a consistent pattern, including the axillary tail and regional lymph nodes.',assessment:'Inspect symmetry and skin changes; assess a new mass, nipple change, or focal tenderness promptly.',associations:'Mastitis, breast abscess, lactation problems, and breast cancer screening.'},
+ femur:{location:'The long bone of the thigh between the hip and knee.',function:'Transmits body weight and provides leverage for lower-limb movement.',landmark:'The greater trochanter and femoral pulse region are important surface landmarks.',assessment:'Compare limb alignment, pain, mobility, distal pulses, sensation, and skin temperature after injury.',associations:'Hip fracture, femoral shaft fracture, avascular necrosis, and thromboembolism risk.'},
+};
+export const clinicalNote=(name:string)=>CLINICAL_NOTES[name.toLowerCase()];
+const SEARCH_ALIASES:Record<string,string[]>={
+ trachea:['windpipe','airway'],
+ 'fallopian tube':['uterine tube','oviduct'],
+ 'mammary gland':['breast','breast tissue'],
+ larynx:['voice box'],
+ oesophagus:['esophagus','food pipe','gullet'],
+ pharynx:['throat'],
+ patella:['kneecap'],
+ scapula:['shoulder blade'],
+ clavicle:['collarbone'],
+ pelvis:['hip bone'],
+};
+export function conceptMatches(concept:Concept,query:string){
+ const q=query.toLowerCase().trim();if(!q)return true;
+ if(concept.name.toLowerCase().includes(q)||concept.id.toLowerCase().includes(q))return true;
+ return Object.entries(SEARCH_ALIASES).some(([canonical,aliases])=>aliases.some(alias=>alias.includes(q)||q.includes(alias))&&(concept.name.toLowerCase().includes(canonical)||aliases.some(alias=>concept.name.toLowerCase().includes(alias))));
+}
 export interface Atlas {version:string;sex:Sex;source:string;scope:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number}[];triangles:number}
 export interface Edition {sex:Sex;label:string;caption:string;manifest:string;dataset:string;summary:string;limits:string;credit:string;licence:string;download:string;supplement?:string;publication?:string;suggestions:string[];hidden:SystemId[]}
 export const EDITIONS:Edition[] = [
@@ -32,7 +86,7 @@ export const EDITIONS:Edition[] = [
 export const edition=(sex:Sex)=>EDITIONS.find(item=>item.sex===sex)??EDITIONS[0];
 export const defaultVisible=(sex:Sex):SystemId[]=>DEFAULT_VISIBLE.filter(id=>!edition(sex).hidden.includes(id));
 export type View = 'three-quarter'|'front'|'back'|'side';
-export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];isolate:boolean;view:View;rotate:boolean;reset:number;surfaceOpacity:number}
+export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];isolate:boolean;view:View;rotate:boolean;reset:number;surfaceOpacity:number;region:RegionId;focus:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['cardiac','sensory','skeletal','muscular','arterial','venous','nervous','brain','respiratory','digestive','urinary','lymphatic','endocrine','reproductive','integumentary','pregnancy','connective'];
 export type LearningPresetId = 'overview'|'circulation'|'nervous'|'digestive'|'reproductive';
 export interface LearningPreset {id:LearningPresetId;label:string;description:string;systems:SystemId[]}
@@ -42,6 +96,42 @@ export const LEARNING_PRESETS:LearningPreset[] = [
  {id:'nervous',label:'Nervous system',description:'Show the brain, nerves, and sensory organs.',systems:['nervous','brain','sensory']},
  {id:'digestive',label:'Digestive system',description:'Show the digestive system.',systems:['digestive']},
  {id:'reproductive',label:'Reproductive system',description:'Show the reproductive system.',systems:['reproductive']},
+];
+export interface PathwayStep {title:string;prompt:string;structure?:string;systems:SystemId[]}
+export interface ClinicalPathway {id:string;label:string;description:string;steps:PathwayStep[]}
+export const CLINICAL_PATHWAYS:ClinicalPathway[]=[
+ {id:'blood-flow',label:'Blood flow',description:'Follow blood from the heart through the body and back again.',steps:[
+  {title:'Pump',prompt:'Start at the heart, the pump that drives both circuits.',structure:'heart',systems:['cardiac']},
+  {title:'Outflow',prompt:'Trace arteries as they carry blood away from the heart.',systems:['cardiac','arterial']},
+  {title:'Exchange',prompt:'Explore the organs supplied by the systemic circulation.',systems:['arterial','digestive','respiratory','urinary','nervous']},
+  {title:'Return',prompt:'Finish with veins returning blood toward the heart.',systems:['cardiac','venous']},
+ ]},
+ {id:'airway',label:'Air pathway',description:'Trace the route of air from the upper airway to the lungs.',steps:[
+  {title:'Entry',prompt:'Find the upper airway where inhaled air enters.',structure:'pharynx',systems:['respiratory','sensory']},
+  {title:'Conduction',prompt:'Follow the trachea as it conducts air toward the chest.',structure:'trachea',systems:['respiratory']},
+  {title:'Exchange',prompt:'Explore the lungs and the diaphragm that powers ventilation.',systems:['respiratory','muscular']},
+ ]},
+ {id:'digestion',label:'Digestion',description:'Follow food through the digestive tract and its accessory organs.',steps:[
+  {title:'Process',prompt:'Begin where food is chewed and mixed with saliva.',systems:['digestive']},
+  {title:'Stomach',prompt:'Find the stomach, which mixes food with acid and enzymes.',structure:'stomach',systems:['digestive']},
+  {title:'Absorb',prompt:'Explore the small intestine and the organs that support absorption.',systems:['digestive','endocrine']},
+  {title:'Support',prompt:'Locate the liver and pancreas, key accessory digestive organs.',systems:['digestive','endocrine']},
+ ]},
+ {id:'urinary-flow',label:'Urinary flow',description:'Follow urine formation, drainage, storage, and elimination.',steps:[
+  {title:'Filter',prompt:'Start at the kidneys, which filter blood and regulate fluid balance.',structure:'kidney',systems:['urinary','endocrine']},
+  {title:'Drain',prompt:'Trace the ureters as they carry urine toward the pelvis.',systems:['urinary']},
+  {title:'Store',prompt:'Find the urinary bladder, the temporary urine reservoir.',structure:'urinary bladder',systems:['urinary']},
+ ]},
+ {id:'reproductive-health',label:'Pelvic anatomy',description:'Explore key female reproductive structures and their relationships.',steps:[
+  {title:'Gonad',prompt:'Locate the ovary and its role in oocyte and hormone production.',structure:'ovary',systems:['reproductive','endocrine']},
+  {title:'Uterus',prompt:'Find the uterus, the muscular organ that supports pregnancy.',structure:'uterus',systems:['reproductive']},
+  {title:'Passage',prompt:'Trace the reproductive tract toward the vagina.',structure:'vagina',systems:['reproductive']},
+ ]},
+ {id:'cranial-nerves',label:'Cranial nerves',description:'Use the brain and sensory systems to review cranial nerve pathways.',steps:[
+  {title:'Origin',prompt:'Begin with the brain, where central processing starts.',structure:'brain',systems:['brain','nervous']},
+  {title:'Sensation',prompt:'Explore sensory organs that receive visual, auditory, and balance signals.',systems:['brain','nervous','sensory']},
+  {title:'Pathways',prompt:'Follow the nervous system as it carries signals beyond the brain.',systems:['brain','nervous']},
+ ]},
 ];
 export const EXPLANATIONS:Record<string,string> = {
  'heart':'A muscular pump in the chest. Its right side sends blood to the lungs; its left side sends blood through the systemic circulation.',
