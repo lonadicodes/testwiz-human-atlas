@@ -32,8 +32,17 @@ export const EDITIONS:Edition[] = [
 export const edition=(sex:Sex)=>EDITIONS.find(item=>item.sex===sex)??EDITIONS[0];
 export const defaultVisible=(sex:Sex):SystemId[]=>DEFAULT_VISIBLE.filter(id=>!edition(sex).hidden.includes(id));
 export type View = 'three-quarter'|'front'|'back'|'side';
-export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];isolate:boolean;view:View;rotate:boolean;reset:number}
+export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];isolate:boolean;view:View;rotate:boolean;reset:number;surfaceOpacity:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['cardiac','sensory','skeletal','muscular','arterial','venous','nervous','brain','respiratory','digestive','urinary','lymphatic','endocrine','reproductive','integumentary','pregnancy','connective'];
+export type LearningPresetId = 'overview'|'circulation'|'nervous'|'digestive'|'reproductive';
+export interface LearningPreset {id:LearningPresetId;label:string;description:string;systems:SystemId[]}
+export const LEARNING_PRESETS:LearningPreset[] = [
+ {id:'overview',label:'Overview',description:'Return to the edition’s standard teaching view.',systems:DEFAULT_VISIBLE},
+ {id:'circulation',label:'Circulation',description:'Show the heart, arteries, and veins.',systems:['cardiac','arterial','venous']},
+ {id:'nervous',label:'Nervous system',description:'Show the brain, nerves, and sensory organs.',systems:['nervous','brain','sensory']},
+ {id:'digestive',label:'Digestive system',description:'Show the digestive system.',systems:['digestive']},
+ {id:'reproductive',label:'Reproductive system',description:'Show the reproductive system.',systems:['reproductive']},
+];
 export const EXPLANATIONS:Record<string,string> = {
  'heart':'A muscular pump in the chest. Its right side sends blood to the lungs; its left side sends blood through the systemic circulation.',
  'liver':'A large organ beneath the right side of the diaphragm. It processes absorbed nutrients, produces bile, and synthesizes many proteins carried in the blood.',

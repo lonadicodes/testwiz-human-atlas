@@ -86,6 +86,34 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 }
 @media(max-width:767px){body:has(.detail-sheet) .view-controls{visibility:hidden}}
 
+/* Additive study and orientation controls. */
+.curated-presets{overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--tw-border) transparent;flex-shrink:0;min-height:38px;max-height:76px;height:auto;align-items:center;align-content:center;flex-wrap:wrap;row-gap:2px}
+.curated-presets button{flex:0 0 auto;white-space:nowrap}
+.system-row .system-info{width:32px;min-width:32px;height:32px;min-height:32px;padding:0;color:var(--tw-text-quiet)}
+.surface-opacity-control{flex-shrink:0;padding:8px 4px 11px;border-top:1px solid var(--tw-border)}
+.surface-opacity-label{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--tw-text-muted)}
+.surface-opacity-label output{font-variant-numeric:tabular-nums;color:var(--tw-text)}
+.surface-opacity-control [data-slot=slider]{padding:10px 0 4px}
+.recent-structures{margin:10px 0 12px;padding:9px 8px;border:1px solid var(--tw-border);border-radius:10px;background:var(--tw-surface-soft);max-height:170px;overflow-y:auto}
+.recent-heading{display:flex;justify-content:space-between;padding:0 4px 5px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tw-text-quiet)}
+.recent-item{width:100%;min-height:36px;display:flex;align-items:center;gap:8px;justify-content:flex-start;padding:6px 4px;border-radius:7px;color:var(--tw-text-muted);font-size:12px;text-align:left}
+.recent-item span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recent-item svg:last-child{color:var(--tw-text-quiet)}
+.orientation-labels{position:absolute;z-index:1;left:50%;top:22%;width:min(280px,calc(100% - 380px));height:44%;transform:translateX(-50%);pointer-events:none;color:var(--tw-text-quiet);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.orientation-labels span{position:absolute;opacity:.66;padding:3px 5px;border-radius:5px;background:var(--tw-surface-soft);border:1px solid var(--tw-border)}
+.orientation-anterior{top:0;left:50%;transform:translateX(-50%)}
+.orientation-posterior{bottom:0;left:50%;transform:translateX(-50%)}
+.orientation-left{left:0;top:50%;transform:translateY(-50%)}
+.orientation-right{right:0;top:50%;transform:translateY(-50%)}
+.first-use-guide{position:absolute;z-index:25;left:310px;bottom:174px;width:254px;padding:16px 17px;border:1px solid var(--tw-border);border-radius:14px;background:var(--tw-surface);box-shadow:0 12px 35px var(--tw-shadow);backdrop-filter:blur(24px)}
+.first-use-guide-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.first-use-guide-header h2{margin:5px 0 10px;font-size:17px;font-weight:600;color:var(--tw-text)}
+.first-use-guide-header .icon-button{width:32px;min-width:32px;height:32px;min-height:32px}.first-use-guide ul{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:12px;line-height:1.45;color:var(--tw-text-muted)}
+.first-use-guide li span{font-weight:600;color:var(--tw-text)}.first-use-guide kbd{padding:1px 5px;border:1px solid var(--tw-border);border-radius:4px;color:var(--tw-text);background:var(--tw-surface-soft)}
+.guide-dismiss{width:100%;min-height:38px;margin-top:13px;border:1px solid var(--tw-border);border-radius:8px;color:var(--tw-text-muted);font-size:12px}
+@media(max-width:1100px) and (min-width:768px){.first-use-guide{left:25px;bottom:174px}.orientation-labels{width:min(280px,calc(100% - 320px))}}
+@media(max-width:767px){.curated-presets{margin-bottom:8px}.system-row .system-info{width:44px;min-width:44px;height:44px;min-height:44px}.surface-opacity-control{padding:10px 4px 13px}.recent-item{min-height:44px}.orientation-labels{top:22%;width:calc(100% - 100px);height:44%;font-size:8px}.first-use-guide{left:16px;right:16px;bottom:calc(151px + env(safe-area-inset-bottom));width:auto;max-width:340px;margin-inline:auto;padding:14px 15px}.first-use-guide-header h2{font-size:16px}.first-use-guide ul{gap:5px;font-size:11px}.guide-dismiss{min-height:44px}}
+@media(max-height:600px) and (orientation:landscape){.first-use-guide{left:12px;bottom:12px;width:250px}.orientation-labels{top:20%;height:46%}}
+
 @media(max-height:600px) and (orientation:landscape){body:has(.detail-sheet) .bottom-dock{left:12px;right:324px;width:auto;transform:none;max-width:none;margin:0}}
 
 /* Testwiz Anatomy brand and theme layer. */
