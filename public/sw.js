@@ -1,11 +1,9 @@
-const SHELL_CACHE = "testwiz-anatomy-shell-v2";
+const SHELL_CACHE = "testwiz-anatomy-shell-v3";
 const SHELL_ASSETS = [
   "/",
   "/index.html",
   "/seo.css",
   "/favicon.svg",
-  "/models/atlas.json",
-  "/models/atlas-female.json",
   "/brand/tizo-app-badge-192.png",
   "/brand/tizo-app-badge-512.png",
 ];
@@ -66,13 +64,11 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isManifest = /^\/models\/atlas(?:-female)?\.json$/.test(url.pathname);
-  // The atlas already stores verified model chunks in IndexedDB. Keeping the
-  // large male/female geometry out of the service-worker cache prevents an
-  // install from consuming a phone's storage and avoids stale anatomy data.
-  // The small edition manifests are cached so a previously downloaded edition
-  // can be reconstructed while offline.
-  if ((url.pathname.startsWith("/models/") && !isManifest) || url.pathname === "/sw.js") return;
+  // Protected anatomy manifests and geometry must never be made available by
+  // the offline shell. The atlas waits for the server-authorized Pro gate
+  // before requesting them, and model chunks remain outside service-worker
+  // storage to avoid stale or cross-account access.
+  if (url.pathname.startsWith("/models/") || url.pathname === "/sw.js") return;
 
   if (request.mode === "navigate") {
     event.respondWith(networkFirst(request));
@@ -82,7 +78,6 @@ self.addEventListener("fetch", (event) => {
   if (
     url.pathname.startsWith("/assets/") ||
     url.pathname.startsWith("/brand/") ||
-    isManifest ||
     url.pathname === "/seo.css" ||
     url.pathname === "/favicon.svg" ||
     url.pathname === "/manifest.webmanifest"

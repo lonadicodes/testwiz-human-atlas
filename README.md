@@ -1,6 +1,6 @@
 # Testwiz Anatomy
 
-The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
+The Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Active Testwiz Pro subscribers can switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
 
 **[Open Testwiz Anatomy](https://anatomy.testwiz.ng)**
 
@@ -17,7 +17,7 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 - Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
 - Hide selected modeled pieces for focused dissection, then restore them from the layers panel without losing the rest of the scene.
 - Start an anatomy entity Q&A session that identifies a highlighted structure, checks anatomy and clinical understanding, explains each answer, and feeds missed entities into local review.
-- Identify Mode is a Testwiz Pro study tool; the public atlas keeps it visibly locked and links learners to the Medical hub, while the approved Pro embed handshake unlocks it for subscribers.
+- The atlas waits for a server-authorized Testwiz Pro handshake before loading either edition's manifest or geometry. Identify Mode, Entity Q&A, clinical pathways, Studio mode, search, and all anatomy layers are included in the same Pro entitlement.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
 - Switch once between the standard Atlas renderer and the Studio renderer. Studio keeps the same edition, geometry, layers, selection, and controls while applying a warmer organ-study presentation and an optional orbit animation.
@@ -25,7 +25,7 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 
 ## Run locally
 
-Requires Node.js 22.13 or newer. No API keys or accounts are needed.
+Requires Node.js 22.13 or newer. Building the static shell needs no API keys; production access is granted by the authenticated Testwiz Pro embed or purchase handoff.
 
 ```sh
 npm ci
@@ -67,7 +67,7 @@ The repository includes browser-ready geometry. Rebuilding it is optional. For t
 
 Import this repository into Vercel as a Vite project. The included `vercel.json` configures `npm ci`, `npm run build`, and the `dist` output directory. It can also be served by a static host.
 
-Production uses `anatomy.testwiz.ng`. Vercel deployment URLs are internal release targets; link to the custom domain for users. The viewer sends versioned `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
+Production uses `anatomy.testwiz.ng`. Vercel deployment URLs are internal release targets; link to the custom domain for users. The viewer sends versioned `access-request`, `access-required`, `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
 
 The installable PWA caches the lightweight application shell, edition manifests, and static interface assets. Large model chunks are intentionally excluded from the service-worker cache to protect phone storage and prevent stale anatomy files; once a model has been downloaded, the viewer's size-checked IndexedDB model cache is reused on the next visit.
 
