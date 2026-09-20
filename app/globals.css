@@ -173,7 +173,7 @@ button:not([data-slot]):hover{color:var(--tw-text);background:var(--tw-hover)}
 @media(max-height:600px) and (orientation:landscape){.identify-card,.qa-card{left:12px;top:auto;bottom:12px;width:250px;max-height:calc(100dvh - 24px)}.pathway-sheet{width:330px}.pathway-steps{gap:5px;margin-top:8px}.pathway-step{padding:6px}.pathway-actions{margin-top:8px}}
 
 /* Pro study affordance and small-screen safety overrides. */
-.study-plan-badge{display:inline-flex;align-items:center;justify-content:center;min-width:25px;height:18px;padding:0 5px;border-radius:999px;background:color-mix(in srgb,var(--primary) 12%,var(--tw-surface-solid));color:var(--primary);font-size:9px;font-weight:700;letter-spacing:.04em}
+.study-plan-badge{display:inline-flex;align-items:center;justify-content:center;min-width:25px;height:18px;padding:0 5px;border-radius:999px;background:color-mix(in srgb,var(--primary) 12%,var(--tw-surface-solid));color:var(--primary);font-size:9px;font-weight:700;letter-spacing:.04em}.panel-foot-actions{display:flex;align-items:center;gap:8px;min-width:0}.panel-foot-actions button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .identify-lock-card{position:absolute;z-index:31;left:310px;top:calc(50% - 135px);width:min(300px,calc(100vw - 360px));padding:17px 18px;border:1px solid color-mix(in srgb,var(--primary) 30%,var(--tw-border));border-radius:14px;background:var(--tw-surface);box-shadow:0 14px 40px var(--tw-shadow);backdrop-filter:blur(24px)}
 .identify-lock-card h2{margin:8px 0 6px;color:var(--tw-text);font-size:18px;font-weight:700}.identify-lock-card p{margin:0 0 14px;color:var(--tw-text-muted);font-size:12px;line-height:1.55}.identify-lock-card .primary-action{width:100%;justify-content:center;text-decoration:none}.identify-lock-card .identify-exit{width:100%;margin-top:5px}
 @media(max-width:1100px) and (min-width:768px){.identify-lock-card{left:25px;top:auto;bottom:174px;width:320px}}
@@ -193,3 +193,4 @@ button:not([data-slot]):hover{color:var(--tw-text);background:var(--tw-hover)}
  .first-use-guide{left:12px;right:auto;bottom:12px;width:250px;max-height:calc(100dvh - 24px)}
  .identify-lock-card{left:12px;top:auto;bottom:12px;width:250px;max-height:calc(100dvh - 24px)}
 }
+@media(max-width:767px){.panel-foot{gap:5px}.panel-foot>span{min-width:0;flex:1}.panel-foot-actions{gap:2px}.panel-foot-actions button{min-width:44px;padding-inline:3px!important;font-size:9px}}

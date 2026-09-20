@@ -114,12 +114,12 @@ export default function AnatomyScene({atlas,state,theme,renderMode,suspended=fal
     if(appearance.current!==lastTheme){const palette=PALETTES[appearance.current];renderer.setClearColor(palette.clear);renderer.toneMappingExposure=palette.exposure;groundMaterial.color.set(palette.ground);platformMaterial.color.set(palette.platform);ringMaterial.color.set(palette.ring);innerRingMaterial.color.set(palette.inner);markerMaterial.color.set(palette.marker);selectionColor.value.set(palette.selection);outlineMaterial.color.set(palette.selection);lastTheme=appearance.current;dirty=true;}
     const surfaceOpacity=atlas.sex==='female'?Math.max(.05,Math.min(.6,s.surfaceOpacity??.24)):.1;
     if(surfaceOpacity!==lastSurfaceOpacity){const surface=mats.get('integumentary');if(surface)surface.opacity=surfaceOpacity;lastSurfaceOpacity=surfaceOpacity;dirty=true;}
-    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.isolate!==s.isolate||lastState?.surfaceOpacity!==s.surfaceOpacity||lastState?.region!==s.region;
+   const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hidden!==s.hidden||lastState?.isolate!==s.isolate||lastState?.surfaceOpacity!==s.surfaceOpacity||lastState?.region!==s.region;
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||lastExtent<0){
-     const visible=new Set(s.visible),selection=new Set(s.selected);updateOutlines(selection);
-     const visibleParts=atlas.parts.filter(p=>s.isolate?selection.has(p.id):selection.has(p.id)||(visible.has(p.system)&&(s.region==='whole-body'||regionForPart(p)===s.region)));
+     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hidden);updateOutlines(selection);
+     const visibleParts=atlas.parts.filter(p=>!hidden.has(p.id)&&(s.isolate?selection.has(p.id):selection.has(p.id)||(visible.has(p.system)&&(s.region==='whole-body'||regionForPart(p)===s.region))));
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
      if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;const regionBox=new T.Box3();visibleParts.forEach(part=>{const index=atlas.parts.indexOf(part);if(index>=0)regionBox.union(bounds[index]);});focusCenter=regionBox.isEmpty()?null:regionBox.getCenter(new T.Vector3());atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}
 
@@ -127,7 +127,7 @@ export default function AnatomyScene({atlas,state,theme,renderMode,suspended=fal
      const c=centers[i],destination=offsets[i];let dx=0,dy=0,dz=0;
      if(amount<=.45){const t=amount/.45;const group=Math.max(0,sceneSystems.findIndex(sys=>sys===p.system));const angle=group/Math.max(1,sceneSystems.length)*Math.PI*2;dx=Math.sin(angle)*t*.48;dy=(c.y-.85)*t*.28;dz=Math.cos(angle)*t*.48;}
      else {const t=(amount-.45)/.55,group=Math.max(0,sceneSystems.findIndex(sys=>sys===p.system)),angle=group/Math.max(1,sceneSystems.length)*Math.PI*2;dx=T.MathUtils.lerp(Math.sin(angle)*.48,destination.x-c.x,t);dy=T.MathUtils.lerp((c.y-.85)*.28,destination.y-c.y,t);dz=T.MathUtils.lerp(Math.cos(angle)*.48,-c.z,t);}
-      const selected=selection.has(p.id),regionVisible=s.region==='whole-body'||regionForPart(p)===s.region;data.set([dx,dy,dz,(s.isolate?selected:selected||(regionVisible&&visible.has(p.system)))?1:0],i*4);selectedData[i*4]=selected?255:0;const outline=outlineByIndex.get(i);if(outline){outline.position.set(dx,dy,dz);outline.visible=data[i*4+3]>.5;}
+      const selected=selection.has(p.id),regionVisible=s.region==='whole-body'||regionForPart(p)===s.region,isVisible=!hidden.has(p.id)&&(s.isolate?selected:selected||(regionVisible&&visible.has(p.system)));data.set([dx,dy,dz,isVisible?1:0],i*4);selectedData[i*4]=selected?255:0;const outline=outlineByIndex.get(i);if(outline){outline.position.set(dx,dy,dz);outline.visible=data[i*4+3]>.5;}
      markerPositions.set(data[i*4+3]>.5?[c.x+dx,c.y+dy,c.z+dz]:[10000,10000,10000],i*3);const mesh=pickers[i];if(mesh){mesh.position.set(dx,dy,dz);mesh.updateMatrix();mesh.updateMatrixWorld(true);}
     });partTexture.needsUpdate=true;selectionTexture.needsUpdate=true;markerGeometry.attributes.position.needsUpdate=true;lastState=s;lastExtent=amount;dirty=true;
    }

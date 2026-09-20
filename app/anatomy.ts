@@ -86,7 +86,7 @@ export const EDITIONS:Edition[] = [
 export const edition=(sex:Sex)=>EDITIONS.find(item=>item.sex===sex)??EDITIONS[0];
 export const defaultVisible=(sex:Sex):SystemId[]=>DEFAULT_VISIBLE.filter(id=>!edition(sex).hidden.includes(id));
 export type View = 'three-quarter'|'front'|'back'|'side';
-export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];isolate:boolean;view:View;rotate:boolean;reset:number;surfaceOpacity:number;region:RegionId;focus:number}
+export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];hidden:string[];isolate:boolean;view:View;rotate:boolean;reset:number;surfaceOpacity:number;region:RegionId;focus:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['cardiac','sensory','skeletal','muscular','arterial','venous','nervous','brain','respiratory','digestive','urinary','lymphatic','endocrine','reproductive','integumentary','pregnancy','connective'];
 export type LearningPresetId = 'overview'|'circulation'|'nervous'|'digestive'|'reproductive';
 export interface LearningPreset {id:LearningPresetId;label:string;description:string;systems:SystemId[]}
