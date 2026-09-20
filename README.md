@@ -68,7 +68,7 @@ Import this repository into Vercel as a Vite project. The included `vercel.json`
 
 Production uses `anatomy.testwiz.ng`. Vercel deployment URLs are internal release targets; link to the custom domain for users. The viewer sends versioned `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
 
-The installable PWA caches the lightweight application shell and static interface assets. Model chunks are intentionally excluded from the service-worker cache to protect phone storage and prevent stale anatomy files; once a model has been downloaded, the viewer's IndexedDB model cache is reused on the next visit.
+The installable PWA caches the lightweight application shell, edition manifests, and static interface assets. Large model chunks are intentionally excluded from the service-worker cache to protect phone storage and prevent stale anatomy files; once a model has been downloaded, the viewer's size-checked IndexedDB model cache is reused on the next visit.
 
 ## License
 
