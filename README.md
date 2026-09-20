@@ -20,6 +20,7 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 - Identify Mode is a Testwiz Pro study tool; the public atlas keeps it visibly locked and links learners to the Medical hub, while the approved Pro embed handshake unlocks it for subscribers.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
+- Switch once between the standard Atlas renderer and the Studio renderer. Studio keeps the same edition, geometry, layers, selection, and controls while applying a warmer organ-study presentation and an optional orbit animation.
 - Install the atlas as a PWA from the canonical domain. The app shell can reopen offline after a visit; downloaded anatomy geometry remains in the existing size-checked IndexedDB cache, so the service worker does not duplicate the large male and female model files.
 
 ## Run locally

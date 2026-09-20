@@ -132,6 +132,7 @@ button:not([data-slot]):hover{color:var(--tw-text);background:var(--tw-hover)}
 .system-name,.structure-description,.about-copy,.secondary-action{color:var(--tw-text-muted)!important}
 .top-actions button,.anatomy-choice [data-slot=select-trigger]{color:var(--tw-text);background:var(--tw-surface);border-color:var(--tw-border)}
 .top-actions button:hover{background:var(--tw-surface-solid)}
+.top-actions .presentation-toggle.active{color:var(--primary);background:var(--tw-hover);border-color:color-mix(in srgb,var(--primary) 42%,var(--tw-border));}
 .top-actions kbd,.layer-presets,.explode-label output,.search-panel [data-slot=input-group]{border-color:var(--tw-border);background:var(--tw-surface-soft)}
 .layer-presets button{color:var(--tw-text-muted)}.layer-presets button[aria-pressed=true]{color:var(--tw-text);background:var(--tw-surface-solid);box-shadow:0 1px 3px var(--tw-shadow)}
 .panel-heading .small-number{color:var(--tw-text-muted);background:var(--tw-surface-soft)}
