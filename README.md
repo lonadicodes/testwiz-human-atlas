@@ -16,6 +16,7 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 - Use clinical aliases such as windpipe, breast, voice box, and uterine tube when searching.
 - Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
 - Start an anatomy entity Q&A session that identifies a highlighted structure, checks anatomy and clinical understanding, explains each answer, and feeds missed entities into local review.
+- Identify Mode is a Testwiz Pro study tool; the public atlas keeps it visibly locked and links learners to the Medical hub, while the approved Pro embed handshake unlocks it for subscribers.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
 
@@ -63,7 +64,7 @@ The repository includes browser-ready geometry. Rebuilding it is optional. For t
 
 Import this repository into Vercel as a Vite project. The included `vercel.json` configures `npm ci`, `npm run build`, and the `dist` output directory. It can also be served by a static host.
 
-Production uses `anatomy.testwiz.ng`; the Vercel project alias remains available as a fallback. The viewer sends versioned `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
+Production uses `anatomy.testwiz.ng`. Vercel deployment URLs are internal release targets; link to the custom domain for users. The viewer sends versioned `progress`, `ready`, and `error` messages to approved `testwiz.ng` parent pages and accepts their light/dark theme preference without reloading model data.
 
 ## License
 
