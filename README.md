@@ -15,6 +15,7 @@ The interactive 3D anatomy explorer from Testwiz, built with React, Three.js, an
 - Follow short clinical pathways for blood flow, air, digestion, urinary flow, pelvic anatomy, and cranial nerves.
 - Use clinical aliases such as windpipe, breast, voice box, and uterine tube when searching.
 - Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
+- Hide selected modeled pieces for focused dissection, then restore them from the layers panel without losing the rest of the scene.
 - Start an anatomy entity Q&A session that identifies a highlighted structure, checks anatomy and clinical understanding, explains each answer, and feeds missed entities into local review.
 - Identify Mode is a Testwiz Pro study tool; the public atlas keeps it visibly locked and links learners to the Medical hub, while the approved Pro embed handshake unlocks it for subscribers.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
