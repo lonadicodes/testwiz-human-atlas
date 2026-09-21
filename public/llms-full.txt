@@ -26,6 +26,7 @@ The male reference uses BodyParts3D 4.0. The female reference uses the Human Ref
 - https://anatomy.testwiz.ng/blog/female-reproductive-system/ — ovaries, uterine tubes, uterus, cervix, vagina, mammary glands, and 3D study steps.
 - https://anatomy.testwiz.ng/blog/how-to-study-anatomy/ — a preview, explore, retrieve, apply, and spaced-review study loop.
 - https://anatomy.testwiz.ng/blog/human-body-systems/ — systems overview and system-versus-region learning strategy.
+- https://anatomy.testwiz.ng/blog/3d-anatomy-atlas-medical-students/ — a student checklist for search, layers, sex-specific coverage, active recall, performance, and account access.
 
 ## Safety and accuracy
 
