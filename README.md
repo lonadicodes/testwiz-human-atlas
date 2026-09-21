@@ -4,6 +4,8 @@ The Semester Pro-only interactive 3D anatomy explorer from Testwiz, built with R
 
 **[Open Testwiz Anatomy](https://anatomy.testwiz.ng)**
 
+The public [Anatomy Study Guides](https://anatomy.testwiz.ng/blog/) provide indexable, source-linked explanations for high-intent student searches such as anatomical planes, heart anatomy, brain anatomy, the female reproductive system, and how to study anatomy. The interactive viewer remains protected by the Testwiz Semester Pro account gate; the guides are intentionally open so students and search engines can understand the learning scope before subscribing.
+
 ## Explore
 
 - Orbit, zoom, and select structures directly on the body.

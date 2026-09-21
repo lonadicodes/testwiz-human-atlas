@@ -8,9 +8,11 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="description" content="Explore Testwiz Semester Pro's interactive 3D human anatomy atlas online with male and female reference views. Search organs, bones, muscles, vessels, nerves, and body systems." />
-    <meta name="keywords" content="interactive 3D human anatomy atlas, 3D anatomy atlas online, free 3D anatomy, human anatomy explorer, anatomy atlas for medical students, male anatomy 3D, female anatomy 3D" />
+    <meta name="description" content="Study human anatomy in 3D with Testwiz: a medical-student atlas for organs, bones, muscles, vessels, nerves, body systems, and female or male reference views." />
+    <meta name="keywords" content="3D human anatomy atlas, human anatomy atlas online, anatomy atlas for medical students, anatomy for nursing students, interactive anatomy, heart anatomy 3D, brain anatomy 3D, female reproductive system anatomy" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_NG" />
     <meta property="og:site_name" content="Testwiz" />
     <meta property="og:title" content="Testwiz Anatomy — Interactive 3D Human Anatomy Atlas" />
     <meta property="og:description" content="Explore Testwiz Semester Pro's interactive 3D human anatomy atlas online. Search, isolate, rotate, and inspect reference anatomy by system." />
@@ -19,8 +21,9 @@
     <meta property="og:image:alt" content="Testwiz Anatomy interactive 3D human anatomy atlas" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Testwiz Anatomy — Interactive 3D Human Anatomy Atlas" />
-    <meta name="twitter:description" content="Explore Testwiz Semester Pro's interactive 3D human anatomy atlas online and study named structures by body system." />
+    <meta name="twitter:description" content="Study named organs and body systems in Testwiz’s interactive 3D human anatomy atlas for medical and nursing students." />
     <meta name="twitter:image" content="https://anatomy.testwiz.ng/brand/tizo-app-badge-512.png" />
+    <meta name="twitter:image:alt" content="Testwiz Anatomy 3D atlas" />
     <link rel="canonical" href="https://anatomy.testwiz.ng/" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/tizo-app-badge-32.png" />
@@ -34,17 +37,20 @@
             "@id": "https://anatomy.testwiz.ng/#app",
             "name": "Testwiz Anatomy",
             "url": "https://anatomy.testwiz.ng/",
-            "description": "A Testwiz Semester Pro interactive 3D human anatomy atlas for exploring named structures and body systems online.",
+            "description": "A Testwiz Semester Pro interactive 3D human anatomy atlas for medical, nursing, and allied-health students to explore named structures and body systems online.",
             "applicationCategory": "EducationalApplication",
             "operatingSystem": "Any",
             "browserRequirements": "WebGL-enabled browser",
-            "isAccessibleForFree": true,
+            "isAccessibleForFree": false,
+            "audience": {"@type": "EducationalAudience", "educationalRole": ["student", "teacher"]},
+            "offers": {"@type": "Offer", "price": "7000", "priceCurrency": "NGN", "category": "Semester Pro access", "url": "https://testwiz.ng/pricing"},
             "featureList": [
               "Search named anatomical structures",
               "Explore human body systems in 3D",
               "Isolate and compare anatomy layers",
               "Male and female reference anatomy views"
             ],
+            "potentialAction": {"@type": "SearchAction", "target": "https://anatomy.testwiz.ng/?structure={search_term_string}", "query-input": "required name=search_term_string"},
             "provider": {
               "@type": "Organization",
               "name": "Testwiz",
@@ -56,6 +62,14 @@
             "itemListElement": [
               { "@type": "ListItem", "position": 1, "name": "Testwiz", "item": "https://testwiz.ng/" },
               { "@type": "ListItem", "position": 2, "name": "3D Anatomy Atlas", "item": "https://anatomy.testwiz.ng/" }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {"@type":"Question","name":"What is Testwiz Anatomy?","acceptedAnswer":{"@type":"Answer","text":"Testwiz Anatomy is an interactive 3D human anatomy atlas for medical, nursing, and allied-health students. It supports search, system layers, isolation, clinical pathways, Identify Mode, and male and female reference editions."}},
+              {"@type":"Question","name":"Does Testwiz Anatomy include a female reference body?","acceptedAnswer":{"@type":"Answer","text":"Yes. The atlas includes a separate female Human Reference Atlas edition. Its page documents that it contains a whole-body orientation surface with selected organs and incomplete skeletal and muscular coverage."}},
+              {"@type":"Question","name":"Can I study anatomy by body system online?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can explore systems such as skeletal, muscular, cardiovascular, nervous, respiratory, digestive, urinary, reproductive, and lymphatic anatomy, then isolate named structures."}}
             ]
           }
         ]
@@ -86,6 +100,19 @@
         </div>
         <h3 class="seo-subheading">Explore human body systems</h3>
         <p class="seo-body">Study the skeleton, muscles, heart and blood vessels, nervous system, respiratory system, digestive system, urinary system, and reproductive anatomy through an interactive 3D reference.</p>
+        <h3 class="seo-subheading">Free anatomy study guides</h3>
+        <p class="seo-body">Build the foundations before you rotate the model. Read our guides to <a href="/blog/anatomical-planes-directions/">anatomical planes and directional terms</a>, <a href="/blog/heart-anatomy/">heart anatomy and blood flow</a>, <a href="/blog/brain-anatomy/">brain anatomy</a>, <a href="/blog/female-reproductive-system/">female reproductive system anatomy</a>, and <a href="/blog/how-to-study-anatomy/">how to study anatomy in medical school</a>.</p>
+        <div class="seo-grid seo-guides">
+          <article><h3><a href="/blog/heart-anatomy/">Heart anatomy guide</a></h3><p>Chambers, valves, circulation, coronary vessels, and nursing landmarks.</p></article>
+          <article><h3><a href="/blog/brain-anatomy/">Brain anatomy guide</a></h3><p>Lobes, brainstem, cerebellum, meninges, and neurologic assessment links.</p></article>
+          <article><h3><a href="/blog/female-reproductive-system/">Female reproductive anatomy</a></h3><p>Uterus, ovaries, uterine tubes, cervix, vagina, and 3D relationships.</p></article>
+        </div>
+        <h3 class="seo-subheading">Anatomy FAQ</h3>
+        <div class="seo-faq">
+          <details><summary>What is the best way to start learning human anatomy?</summary><p>Start with anatomical position, body planes, directional terms, and the major regions. Then study one system at a time and use 3D models to connect names with spatial relationships.</p></details>
+          <details><summary>Is a 3D anatomy atlas useful for medical and nursing students?</summary><p>Yes. 3D models are particularly useful when a flat diagram does not make depth, relationships, or pathways clear. Pair the atlas with your course text, practical work, and retrieval practice.</p></details>
+          <details><summary>Does Testwiz Anatomy include male and female reference views?</summary><p>Yes. The Atlas has separate male and female reference editions and explains the female edition’s selected-organ and incomplete skeletal or muscular coverage.</p></details>
+        </div>
         <p class="seo-body">Testwiz Anatomy is an educational reference tool, not a diagnostic or clinical service. For anatomy practice questions and medical past-question revision, visit <a href="https://testwiz.ng/medical">Testwiz Medical</a>.</p>
       </div>
     </section>

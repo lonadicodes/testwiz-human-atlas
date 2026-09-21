@@ -1,0 +1,37 @@
+# Testwiz Anatomy
+
+> Testwiz Anatomy is an interactive 3D human anatomy atlas for medical, nursing, midwifery, and allied-health students.
+
+## What it offers
+
+- Search named anatomical structures and common aliases.
+- Explore body systems, regions, clinical pathways, Entity Q&A, and Identify Mode.
+- Switch between male and female reference editions.
+- Rotate, zoom, isolate, explode, focus, and share a structure link.
+- Use optimized rendering on constrained phones without changing source geometry.
+
+## Important scope
+
+- Access to the interactive atlas requires Testwiz Semester Pro and is tied to the learner's Testwiz account.
+- The male edition is based on BodyParts3D 4.0.
+- The female edition is based on Human Reference Atlas female v1.10, with eight pelvic structures retained from v1.5. It is a whole-body orientation surface with selected organs and incomplete skeletal and muscular coverage.
+- This is an educational reference, not a diagnostic or surgical tool.
+
+## Start here
+
+- [Interactive atlas](https://anatomy.testwiz.ng/)
+- [Anatomy study guides](https://anatomy.testwiz.ng/blog/)
+- [Anatomical planes and directions](https://anatomy.testwiz.ng/blog/anatomical-planes-directions/)
+- [Heart anatomy](https://anatomy.testwiz.ng/blog/heart-anatomy/)
+- [Brain anatomy](https://anatomy.testwiz.ng/blog/brain-anatomy/)
+- [Female reproductive system anatomy](https://anatomy.testwiz.ng/blog/female-reproductive-system/)
+- [How to study anatomy](https://anatomy.testwiz.ng/blog/how-to-study-anatomy/)
+- [Human body systems overview](https://anatomy.testwiz.ng/blog/human-body-systems/)
+
+## Audience
+
+Medical students, nursing students, midwifery students, anatomy and physiology learners, clinical educators, and lecturers.
+
+## Publisher
+
+Testwiz — https://testwiz.ng/
