@@ -1,6 +1,6 @@
 # Testwiz Anatomy
 
-The Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Active Testwiz Pro subscribers can switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
+The Semester Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Active Testwiz Semester Pro subscribers can switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
 
 **[Open Testwiz Anatomy](https://anatomy.testwiz.ng)**
 
@@ -14,10 +14,10 @@ The Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Thr
 - Jump to head and neck, thorax, abdomen, pelvis, upper-limb, or lower-limb regions without losing your current explode state.
 - Follow short clinical pathways for blood flow, air, digestion, urinary flow, pelvic anatomy, and cranial nerves.
 - Use clinical aliases such as windpipe, breast, voice box, and uterine tube when searching.
-- Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
+- Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Semester Pro.
 - Hide selected modeled pieces for focused dissection, then restore them from the layers panel without losing the rest of the scene.
 - Start an anatomy entity Q&A session that identifies a highlighted structure, checks anatomy and clinical understanding, explains each answer, and feeds missed entities into local review.
-- The atlas waits for a server-authorized Testwiz Pro handshake before loading either edition's manifest or geometry. Identify Mode, Entity Q&A, clinical pathways, Studio mode, search, and all anatomy layers are included in the same Pro entitlement.
+- The atlas waits for a server-authorized Testwiz Semester Pro handshake before loading either edition's manifest or geometry. Identify Mode, Entity Q&A, clinical pathways, Studio mode, search, and all anatomy layers are included in the same Semester Pro entitlement.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
 - Switch once between the standard Atlas renderer and the Studio renderer. Studio keeps the same edition, geometry, layers, selection, and controls while applying a warmer organ-study presentation and an optional orbit animation.
@@ -25,7 +25,7 @@ The Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Thr
 
 ## Run locally
 
-Requires Node.js 22.13 or newer. Building the static shell needs no API keys; production access is granted by the authenticated Testwiz Pro embed or purchase handoff.
+Requires Node.js 22.13 or newer. Building the static shell needs no API keys; production access is granted by the authenticated Testwiz Semester Pro embed or purchase handoff.
 
 ```sh
 npm ci
