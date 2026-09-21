@@ -202,6 +202,14 @@ button:not([data-slot]):hover{color:var(--tw-text);background:var(--tw-hover)}
    model-loading UI should be actionable before the server-authorized Pro
    handshake completes. */
 .studio.is-locked> :not(.identity):not(.atlas-access-gate):not(.vignette){pointer-events:none;opacity:.28}
+.atlas-auth-check{display:grid;min-height:100svh;place-items:center;padding:24px;background:var(--tw-bg);color:var(--tw-text)}
+.atlas-auth-check-card{display:flex;width:min(100%,360px);flex-direction:column;align-items:center;gap:12px;text-align:center}
+.atlas-auth-check-card img{width:132px;height:auto;object-fit:contain}
+.atlas-auth-check-label{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--tw-text-muted)}
+.atlas-auth-check-card h1{margin:8px 0 0;font-size:clamp(1.35rem,4vw,1.75rem);font-weight:800;letter-spacing:-.03em}
+.atlas-auth-check-card p{margin:0;color:var(--tw-text-muted);font-size:.92rem;line-height:1.55}
+.atlas-auth-spinner{width:24px;height:24px;border:2px solid color-mix(in srgb,var(--primary) 25%,transparent);border-top-color:var(--primary);border-radius:999px;animation:atlas-auth-spin .8s linear infinite}
+@keyframes atlas-auth-spin{to{transform:rotate(360deg)}}
 .atlas-access-gate{position:absolute;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100vw - 28px));max-height:min(620px,calc(100dvh - 28px));overflow-y:auto;padding:24px 25px 20px;border:1px solid color-mix(in srgb,var(--primary) 28%,var(--tw-border));border-radius:18px;background:var(--tw-surface-solid);box-shadow:0 24px 80px color-mix(in srgb,var(--tw-shadow) 82%,transparent);text-align:center}
 .atlas-access-gate::before{content:"";position:absolute;inset:0 28% auto;height:2px;border-radius:0 0 999px 999px;background:var(--primary);opacity:.8}
 .atlas-access-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin:1px 0 22px;color:var(--tw-text);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
