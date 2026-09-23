@@ -1,10 +1,10 @@
 # Testwiz Anatomy
 
-The Semester Pro-only interactive 3D anatomy explorer from Testwiz, built with React, Three.js, and shadcn/ui. Active Testwiz Semester Pro subscribers can switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
+The Testwiz Pro interactive 3D anatomy explorer, built with React, Three.js, and shadcn/ui. Active Testwiz Pro subscribers can switch between male and female reference bodies, reveal anatomical systems, search named concepts, and inspect individual structures in 3D.
 
 **[Open Testwiz Anatomy](https://anatomy.testwiz.ng)**
 
-The public [Anatomy Study Guides](https://anatomy.testwiz.ng/blog/) provide indexable, source-linked explanations for high-intent student searches such as anatomical planes, heart anatomy, brain anatomy, the female reproductive system, and how to study anatomy. The interactive viewer remains protected by the Testwiz Semester Pro account gate; the guides are intentionally open so students and search engines can understand the learning scope before subscribing.
+The public [Anatomy Study Guides](https://anatomy.testwiz.ng/blog/) provide indexable, source-linked explanations for high-intent student searches such as anatomical planes, heart anatomy, brain anatomy, the female reproductive system, and how to study anatomy. The interactive viewer remains protected by the Testwiz Pro account gate; the guides are intentionally open so students and search engines can understand the learning scope before subscribing.
 
 ## Explore
 
@@ -16,10 +16,10 @@ The public [Anatomy Study Guides](https://anatomy.testwiz.ng/blog/) provide inde
 - Jump to head and neck, thorax, abdomen, pelvis, upper-limb, or lower-limb regions without losing your current explode state.
 - Follow short clinical pathways for blood flow, air, digestion, urinary flow, pelvic anatomy, and cranial nerves.
 - Use clinical aliases such as windpipe, breast, voice box, and uterine tube when searching.
-- Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Semester Pro.
+- Center a selected structure, review nursing-focused location and assessment notes, and try active-recall Identify Mode when launched inside Testwiz Pro.
 - Hide selected modeled pieces for focused dissection, then restore them from the layers panel without losing the rest of the scene.
 - Start an anatomy entity Q&A session that identifies a highlighted structure, checks anatomy and clinical understanding, explains each answer, and feeds missed entities into local review.
-- The atlas waits for a server-authorized Testwiz Semester Pro handshake before loading either edition's manifest or geometry. Identify Mode, Entity Q&A, clinical pathways, Studio mode, search, and all anatomy layers are included in the same Semester Pro entitlement.
+- The atlas waits for a server-authorized Testwiz Pro handshake before loading either edition's manifest or geometry. Identify Mode, Entity Q&A, clinical pathways, Studio mode, search, and all anatomy layers are included in the same Pro entitlement.
 - Share region/pathway deep links with a class or study group. Hidden tabs pause the renderer, Save-Data devices choose the optimized mode automatically, and decoded model chunks are cached locally for repeat visits.
 - Use compact controls and detail panels on mobile.
 - Switch once between the standard Atlas renderer and the Studio renderer. Studio keeps the same edition, geometry, layers, selection, and controls while applying a warmer organ-study presentation and an optional orbit animation.
@@ -27,7 +27,7 @@ The public [Anatomy Study Guides](https://anatomy.testwiz.ng/blog/) provide inde
 
 ## Run locally
 
-Requires Node.js 22.13 or newer. Building the static shell needs no API keys; production access is granted by the authenticated Testwiz Semester Pro embed or purchase handoff.
+Requires Node.js 22.13 or newer. Building the static shell needs no API keys; production access is granted by the authenticated Testwiz Pro embed or purchase handoff.
 
 ```sh
 npm ci

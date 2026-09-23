@@ -12,7 +12,7 @@
 
 ## Important scope
 
-- Access to the interactive atlas requires Testwiz Semester Pro and is tied to the learner's Testwiz account.
+- Access to the interactive atlas requires an active Testwiz Pro subscription and is tied to the learner's Testwiz account.
 - The male edition is based on BodyParts3D 4.0.
 - The female edition is based on Human Reference Atlas female v1.10, with eight pelvic structures retained from v1.5. It is a whole-body orientation surface with selected organs and incomplete skeletal and muscular coverage.
 - This is an educational reference, not a diagnostic or surgical tool.

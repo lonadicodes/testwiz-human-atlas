@@ -2,7 +2,7 @@
 
 ## Product summary
 
-Testwiz Anatomy is a browser-based interactive 3D human anatomy atlas designed for medical, nursing, midwifery, and allied-health students. The public pages explain anatomy concepts and link into the interactive viewer. The viewer itself is available through Testwiz Semester Pro, tied to the learner's Testwiz account.
+Testwiz Anatomy is a browser-based interactive 3D human anatomy atlas designed for medical, nursing, midwifery, and allied-health students. The public pages explain anatomy concepts and link into the interactive viewer. The viewer itself is available through any active Testwiz Pro subscription, tied to the learner's Testwiz account.
 
 ## Learning workflow
 
